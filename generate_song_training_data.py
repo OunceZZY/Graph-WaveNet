@@ -27,10 +27,23 @@ def generate_graph_seq2seq_io_data(
     """
 
     num_samples, num_nodes = midi_data.shape
-    midi_data = np.expand_dims(midi_data, axis=-1)
-    # print(midi_data.shape)
+    # i.e. time_stamp, pitch
+    midi_data = np.expand_dims(midi_data, axis= -1)
+    # feature matrix i.e. X
+    print(midi_data.shape) # comment this
+    # print(midi_data[1000,:,0]) # f1 channel
+    # print(midi_data[:,:,1]) # f2 channel
     # time.sleep(2)
     # print("asdf" + 234)
+
+    ## TODO: second layer: what can we do
+
+    ## TODO: problem: sparseness
+    ## Off 12 steps both direction
+
+    ## What it was:
+    ## [time_stamp:y_d_h, sensor_num, _]
+
     #
     # # num_samples, num_nodes = df.shape
     # # data = np.expand_dims(df.values, axis=-1)
@@ -63,12 +76,12 @@ def generate_graph_seq2seq_io_data(
         #     print(t + x_offsets)
         #     print(t + y_offsets)
         #     print()
-        #     print(data.shape)
-        #     print(data[t + x_offsets, ...].shape)
-        #     print(data[t + y_offsets, ...].shape)
-        #     print(data[:12, 0, :] - data[t + x_offsets, 0, :])
+        #     print(midi_data.shape)
+        #     print(midi_data[t + x_offsets, ...].shape)
+        #     print(midi_data[t + y_offsets, ...].shape)
+        #     print(midi_data[:12, 0, :] - midi_data[t + x_offsets, 0, :])
         #     print()
-        #     print(data[12:24, 0, :] - data[t + y_offsets, 0, :])
+        #     print(midi_data[12:24, 0, :] - midi_data[t + y_offsets, 0, :])
     x = np.stack(x, axis=0)
     y = np.stack(y, axis=0)
     # print(x.shape)
@@ -82,6 +95,11 @@ def generate_train_val_test(args):
     seq_length_x, seq_length_y = args.seq_length_x, args.seq_length_y
     # df = pd.read_hdf(args.traffic_df_filename)
     midi_data = np.transpose(pretty_midi.PrettyMIDI(args.training_song_filename).get_piano_roll())
+    # for pretty_midi.PrettyMIDI(args.training_song_filename).get_piano_roll()
+    #   time_stamp x pitch
+    # print(midi_data.shape)
+    # print("Bk"+123)
+
     # print(df)
     # 0 is the latest observed sample.
     x_offsets = np.sort(np.concatenate((np.arange(-(seq_length_x - 1), 1, 1),)))
@@ -134,6 +152,7 @@ if __name__ == "__main__":
     parser.add_argument("--dow", action='store_true',)
 
     args = parser.parse_args()
+    print("Test")
     if os.path.exists(args.output_dir):
         reply = str(input(f'{args.output_dir} exists. Do you want to overwrite it? (y/n)')).lower().strip()
         if reply[0] != 'y': exit
