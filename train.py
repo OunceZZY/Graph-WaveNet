@@ -62,16 +62,16 @@ def main():
     scaler = dataloader['scaler']
     supports = [torch.tensor(i).to(device) for i in adj_mx]
 
-    print(adj_mx[10:20, 10:20])
+    print(type(adj_mx))
+    print(len(adj_mx))
+    for elem in adj_mx:
+        print(type(elem))
+        print(elem[:10, :10])
+        print(elem.shape)
+    print(args)
+
     time.sleep(2)
     print("tsadf" + 24)
-    # print(type(adj_mx))
-    # print(len(adj_mx))
-    # for elem in adj_mx:
-    #     print(type(elem))
-    #     print(elem[:5, :5])
-    #     print(elem.shape)
-    # print(args)
 
     if args.randomadj:
         adjinit = None
