@@ -53,6 +53,8 @@ def main():
     piano_adj = np.zeros((128, 128))
     for row in range(128):
         piano_adj[row] = frequencies - frequencies[row]
+    print(piano_adj[10:20, 10:20])
+
 
     device = torch.device(args.device)
     adj_mx = util.load_piano_adj(piano_adj, args.adjtype)
@@ -60,6 +62,9 @@ def main():
     scaler = dataloader['scaler']
     supports = [torch.tensor(i).to(device) for i in adj_mx]
 
+    print(adj_mx[10:20, 10:20])
+    time.sleep(2)
+    print("tsadf" + 24)
     # print(type(adj_mx))
     # print(len(adj_mx))
     # for elem in adj_mx:
