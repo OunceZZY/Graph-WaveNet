@@ -66,7 +66,7 @@ def main():
     print(len(adj_mx))
     for elem in adj_mx:
         print(type(elem))
-        print(elem[:10, :10])
+        print(elem[10:20, 10:20])
         print(elem.shape)
     print(args)
 
